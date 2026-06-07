@@ -179,15 +179,17 @@ button:active {
 }
 
 #photo {
-    width: 80%;
-    max-width: 320px;
+    width: 62%;
+    max-width: 220px;
     border-radius: 32px;
     opacity: 0;
     transform: scale(0.85);
     transition: 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    margin: 18px 0;
+    margin: 12px 0;
     border: 3px solid #ffdd77;
     box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    position: relative;
+    z-index: 2;
 }
 
 #photo.show {
@@ -200,9 +202,12 @@ button:active {
     border: 1px solid rgba(255, 218, 121, 0.45);
     backdrop-filter: blur(12px);
     border-radius: 36px;
-    padding: 14px 20px;
-    font-size: 1.15rem;
-    max-width: 430px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    line-height: 1.45;
+    max-width: 390px;
+    position: relative;
+    z-index: 2;
 }
 
 .bigHeart {
@@ -216,7 +221,32 @@ button:active {
     to { transform: scale(1.16); }
 }
 
+#s7 {
+    justify-content: flex-start;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    overflow-y: auto;
+}
+
+#finalTitle {
+    z-index: 2;
+    font-size: 1.55rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 550px) {
+    .card {
+        padding: 24px 18px;
+        border-radius: 28px;
+    }
+
+    button {
+        font-size: 17px;
+        padding: 13px;
+    }
+
     #energy {
         font-size: 18px;
         padding: 13px 18px;
@@ -227,6 +257,27 @@ button:active {
         height: 120px;
         right: 12px;
         bottom: 65px;
+    }
+
+    #zone::after {
+        font-size: 11px;
+    }
+
+    #finalTitle {
+        font-size: 1.25rem;
+    }
+
+    #photo {
+        width: 56%;
+        max-width: 180px;
+        margin: 10px 0;
+    }
+
+    .finalText {
+        font-size: 0.93rem;
+        line-height: 1.4;
+        padding: 10px 14px;
+        border-radius: 26px;
     }
 }
 </style>
@@ -307,11 +358,11 @@ button:active {
 </div>
 
 <div id="s7" class="screen">
-    <h1 style="z-index:2; font-size: 2.1rem;">🎉 С ДНЁМ РОЖДЕНИЯ!</h1>
+    <h1 id="finalTitle">🎉 С ДНЁМ РОЖДЕНИЯ!</h1>
 
     <img id="photo" src="photo.jpg" alt="Дедушка">
 
-    <p class="finalText" style="z-index:2;">
+    <p class="finalText">
         Дедушка, спасибо за заботу,<br>
         за помощь,<br>
         за истории,<br>
@@ -581,40 +632,40 @@ function startLoadSequence() {
     let stepIdx = 0;
 
     const interval = setInterval(() => {
-    percent += 0.7;
+        percent += 0.7;
 
-    if (percent > 100) percent = 100;
+        if (percent > 100) percent = 100;
 
-    bar.style.width = percent + "%";
+        bar.style.width = percent + "%";
 
-    if (percent >= 18 && stepIdx === 0) {
-        txtEl.innerText = stages[0];
-        stepIdx++;
-    }
+        if (percent >= 18 && stepIdx === 0) {
+            txtEl.innerText = stages[0];
+            stepIdx++;
+        }
 
-    if (percent >= 38 && stepIdx === 1) {
-        txtEl.innerText = stages[1];
-        stepIdx++;
-    }
+        if (percent >= 38 && stepIdx === 1) {
+            txtEl.innerText = stages[1];
+            stepIdx++;
+        }
 
-    if (percent >= 62 && stepIdx === 2) {
-        txtEl.innerText = stages[2];
-        stepIdx++;
-    }
+        if (percent >= 62 && stepIdx === 2) {
+            txtEl.innerText = stages[2];
+            stepIdx++;
+        }
 
-    if (percent >= 82 && stepIdx === 3) {
-        txtEl.innerText = stages[3];
-        stepIdx++;
-    }
+        if (percent >= 82 && stepIdx === 3) {
+            txtEl.innerText = stages[3];
+            stepIdx++;
+        }
 
-    if (percent >= 100) {
-        clearInterval(interval);
-        showScreen('s6');
+        if (percent >= 100) {
+            clearInterval(interval);
+            showScreen('s6');
 
-        const music = document.getElementById('music');
-        if (music) music.volume = 0.35;
-    }
-}, 55);
+            const music = document.getElementById('music');
+            if (music) music.volume = 0.35;
+        }
+    }, 55);
 }
 
 function showFinal() {
