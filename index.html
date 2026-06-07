@@ -89,11 +89,18 @@ button:active {
     margin: 12px 0;
 }
 
+/* Экран с энергией */
+#s3 {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
 #energyWorld {
     position: relative;
     z-index: 2;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 135px);
+    max-height: 560px;
     background:
         radial-gradient(circle at 25% 20%, rgba(255, 223, 120, 0.35), transparent 24%),
         radial-gradient(circle at 80% 70%, rgba(94, 231, 223, 0.25), transparent 26%),
@@ -108,7 +115,7 @@ button:active {
 #zone {
     position: absolute;
     right: 18px;
-    bottom: 75px;
+    bottom: 14px;
     width: 145px;
     height: 145px;
     border: 3px dashed #ffdd77;
@@ -247,6 +254,16 @@ button:active {
         padding: 13px;
     }
 
+    #s3 {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    #energyWorld {
+        height: calc(100vh - 125px);
+        max-height: 500px;
+    }
+
     #energy {
         font-size: 18px;
         padding: 13px 18px;
@@ -256,7 +273,7 @@ button:active {
         width: 120px;
         height: 120px;
         right: 12px;
-        bottom: 65px;
+        bottom: 12px;
     }
 
     #zone::after {
@@ -552,7 +569,6 @@ function processEnergyPush(clientX, clientY) {
 function pushEnergyAway(clientX, clientY) {
     const energyRect = energyElem.getBoundingClientRect();
     const worldRect = worldDiv.getBoundingClientRect();
-    const zoneRect = zoneElem.getBoundingClientRect();
 
     const centerX = energyRect.left + energyRect.width / 2;
     const centerY = energyRect.top + energyRect.height / 2;
@@ -576,11 +592,7 @@ function pushEnergyAway(clientX, clientY) {
     let newTop = energyRect.top - worldRect.top + dy * offset;
 
     const maxLeft = worldRect.width - energyRect.width - 8;
-
-    // Нижняя граница движения — нижний край зоны энергии.
-    // Так энергия не улетает ниже зоны, и её легче загнать.
-    const zoneBottomInsideWorld = zoneRect.bottom - worldRect.top;
-    const maxTop = zoneBottomInsideWorld - energyRect.height;
+    const maxTop = worldRect.height - energyRect.height - 8;
 
     newLeft = Math.min(Math.max(newLeft, 8), maxLeft);
     newTop = Math.min(Math.max(newTop, 8), maxTop);
