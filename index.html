@@ -179,8 +179,8 @@ button:active {
 }
 
 #photo {
-    width: 62%;
-    max-width: 220px;
+    width: 70%;
+    max-width: 250px;
     border-radius: 32px;
     opacity: 0;
     transform: scale(0.85);
@@ -202,10 +202,10 @@ button:active {
     border: 1px solid rgba(255, 218, 121, 0.45);
     backdrop-filter: blur(12px);
     border-radius: 36px;
-    padding: 12px 16px;
-    font-size: 1rem;
-    line-height: 1.45;
-    max-width: 390px;
+    padding: 14px 18px;
+    font-size: 1.08rem;
+    line-height: 1.48;
+    max-width: 420px;
     position: relative;
     z-index: 2;
 }
@@ -230,15 +230,15 @@ button:active {
 
 #finalTitle {
     z-index: 2;
-    font-size: 1.55rem;
+    font-size: 1.75rem;
     line-height: 1.1;
     white-space: nowrap;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 @media (max-width: 550px) {
     .card {
-        padding: 24px 18px;
+        padding: 24px 16px;
         border-radius: 28px;
     }
 
@@ -264,20 +264,20 @@ button:active {
     }
 
     #finalTitle {
-        font-size: 1.25rem;
+        font-size: 1.38rem;
     }
 
     #photo {
-        width: 56%;
-        max-width: 180px;
-        margin: 10px 0;
+        width: 64%;
+        max-width: 210px;
+        margin: 12px 0;
     }
 
     .finalText {
-        font-size: 0.93rem;
-        line-height: 1.4;
-        padding: 10px 14px;
-        border-radius: 26px;
+        font-size: 1rem;
+        line-height: 1.42;
+        padding: 12px 15px;
+        border-radius: 28px;
     }
 }
 </style>
@@ -294,9 +294,9 @@ button:active {
             🎉 ГОСУДАРСТВЕННАЯ ПРОВЕРКА
         </h2>
 
-        <div style="background: rgba(255,255,255,0.08); border-radius: 24px; padding: 18px; margin: 22px 0; text-align: left; border: 1px solid rgba(255, 218, 121, 0.4);">
+        <div style="background: rgba(255,255,255,0.08); border-radius: 24px; padding: 18px 14px; margin: 22px 0; text-align: left; border: 1px solid rgba(255, 218, 121, 0.4);">
             <p style="font-size: 1.2rem; margin: 8px 0;">👤 <strong>Объект:</strong> Дедушка</p>
-            <p style="font-size: 1.2rem; margin: 8px 0;">📋 <strong>Категория:</strong> Легенда семьи</p>
+            <p style="font-size: 1.1rem; margin: 8px 0; white-space: nowrap;">📋 <strong>Категория:</strong> Легенда семьи</p>
             <p style="font-size: 1.35rem; margin: 12px 0; color: #ffdd77;">⬤ <strong>Статус:</strong> На проверке</p>
         </div>
 
@@ -552,6 +552,7 @@ function processEnergyPush(clientX, clientY) {
 function pushEnergyAway(clientX, clientY) {
     const energyRect = energyElem.getBoundingClientRect();
     const worldRect = worldDiv.getBoundingClientRect();
+    const zoneRect = zoneElem.getBoundingClientRect();
 
     const centerX = energyRect.left + energyRect.width / 2;
     const centerY = energyRect.top + energyRect.height / 2;
@@ -575,7 +576,11 @@ function pushEnergyAway(clientX, clientY) {
     let newTop = energyRect.top - worldRect.top + dy * offset;
 
     const maxLeft = worldRect.width - energyRect.width - 8;
-    const maxTop = worldRect.height - energyRect.height - 8;
+
+    // Нижняя граница движения — нижний край зоны энергии.
+    // Так энергия не улетает ниже зоны, и её легче загнать.
+    const zoneBottomInsideWorld = zoneRect.bottom - worldRect.top;
+    const maxTop = zoneBottomInsideWorld - energyRect.height;
 
     newLeft = Math.min(Math.max(newLeft, 8), maxLeft);
     newTop = Math.min(Math.max(newTop, 8), maxTop);
